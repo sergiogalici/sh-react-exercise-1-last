@@ -1,3 +1,32 @@
-h1, p {
+h1,
+p {
   font-family: Lato;
+}
+
+input {
+  padding: 2px;
+  border-radius: 4px;
+  outline: none;
+  margin: 5px;
+  box-shadow: 0 0 4px 1px gray;
+}
+
+input:hover,
+input:focus {
+  outline: 1px solid black;
+}
+
+button {
+  padding: 4px;
+  margin: 5px;
+  border-radius: 4px;
+  outline: none;
+  border: none;
+  box-shadow: 0 0 4px 1px gray;
+  cursor: pointer;
+  transition: 0.115s ease-in-out;
+}
+
+button:hover {
+  background-color: rgb(134, 161, 152);
 }
