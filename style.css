@@ -10,7 +10,8 @@ body {
 }
 
 input {
-  padding: 2px;
+  all: unset;
+  padding: 4px;
   border-radius: 4px;
   outline: none;
   margin: 5px;
@@ -19,10 +20,12 @@ input {
 
 input:hover,
 input:focus {
-  outline: 1px solid black;
+  outline: 2px solid rgb(120, 120, 120);
 }
 
 button {
+  background-color: rgb(199, 204, 202);
+
   padding: 4px;
   margin: 5px;
   border-radius: 4px;
