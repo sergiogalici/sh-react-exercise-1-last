@@ -7,6 +7,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 input {
@@ -24,18 +25,18 @@ input:focus {
 }
 
 button {
-  background-color: rgb(199, 204, 202);
-
-  padding: 4px;
+  background-color: rgb(20, 141, 125);
+  padding: 8px;
   margin: 5px;
   border-radius: 4px;
   outline: none;
   border: none;
-  box-shadow: 0 0 4px 1px gray;
   cursor: pointer;
   transition: 0.115s ease-in-out;
+  color: white;
+  font-weight: 400;
 }
 
 button:hover {
-  background-color: rgb(160, 202, 188);
+  background-color: rgb(31, 180, 160);
 }

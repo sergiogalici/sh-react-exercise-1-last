@@ -39,32 +39,42 @@ const ResComponent = ({
 };
 
 export default function App() {
-  const [name, setName] = React.useState<string>('');
+  const baseReservation = {
+    id: 0,
+    name: '',
+    numOfGuests: 1,
+  };
+  // const [name, setName] = React.useState('');
+  // const [numOfGuests, setNumOfGuests] = React.useState(1);
+  const [reservation, setReservation] =
+    React.useState<Reservation>(baseReservation);
   const [reservations, setReservations] = React.useState<Reservation[]>([]);
-  const [numOfGuests, setNumOfGuests] = React.useState(1);
+  const [searchName, setSearchName] = React.useState<string>('');
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setName(e.target.value);
+    setReservation({ ...reservation, name: e.target.value });
+    // setName(e.target.value);
   };
 
   const handleNumOfGuestsChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    setNumOfGuests(Number(e.target.value));
+    setReservation({ ...reservation, numOfGuests: Number(e.target.value) });
+    // setNumOfGuests(Number(e.target.value));
   };
 
   const handleBookNow = () => {
-    if (!name.length) {
+    if (!reservation.name.length) {
       return;
     }
-    setReservations([
-      ...reservations,
-      {
-        id: Date.now(),
-        name,
-        numOfGuests,
-      },
-    ]);
+    if (reservations.find((res) => res.name === reservation.name)) {
+      window.alert('Name already in use!');
+      setReservation(baseReservation);
+      return;
+    }
+
+    setReservations([...reservations, { ...reservation, id: Date.now() }]);
+    setReservation(baseReservation);
   };
 
   const handleDelete = (index: number): void => {
@@ -83,32 +93,57 @@ export default function App() {
 
   return (
     <div>
-      <button onClick={() => console.log('reservations: ', reservations)}>
+      <button
+        onClick={() =>
+          console.log('reservations: ', JSON.stringify(reservations))
+        }
+      >
         Show Reservations in Console
       </button>
       <br></br>
+      <div>
+        <input
+          placeholder="...filter by name"
+          onChange={(e) => setSearchName(e.target.value)}
+        />
+      </div>
       <input
         type="text"
         placeholder="Insert your name"
-        value={name}
+        value={reservation.name}
         onChange={handleNameChange}
       />
       <input
         type="number"
         min="1"
         defaultValue="1"
+        value={reservation.numOfGuests}
         onChange={handleNumOfGuestsChange}
       />
       <button onClick={handleBookNow}>Book Now</button>
-      {reservations.map((res) => (
-        <ResComponent
-          id={res.id}
-          name={res.name}
-          numOfGuests={res.numOfGuests}
-          handleSave={handleSave}
-          handleDelete={handleDelete}
-        />
-      ))}
+      {searchName.length
+        ? reservations
+            .filter((res) =>
+              res.name.toLowerCase().includes(searchName.toLowerCase())
+            )
+            .map((res) => (
+              <ResComponent
+                id={res.id}
+                name={res.name}
+                numOfGuests={res.numOfGuests}
+                handleSave={handleSave}
+                handleDelete={handleDelete}
+              />
+            ))
+        : reservations.map((res) => (
+            <ResComponent
+              id={res.id}
+              name={res.name}
+              numOfGuests={res.numOfGuests}
+              handleSave={handleSave}
+              handleDelete={handleDelete}
+            />
+          ))}
     </div>
   );
 }
