@@ -3,6 +3,12 @@ p {
   font-family: Lato;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 input {
   padding: 2px;
   border-radius: 4px;
@@ -28,5 +34,5 @@ button {
 }
 
 button:hover {
-  background-color: rgb(134, 161, 152);
+  background-color: rgb(160, 202, 188);
 }

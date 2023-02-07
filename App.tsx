@@ -74,7 +74,6 @@ export default function App() {
   };
 
   const handleSave = (value: number, updatedGuests: number): void => {
-    console.log('New people, ', updatedGuests);
     setReservations(
       reservations.map((res) =>
         res.id === Number(value) ? { ...res, numOfGuests: updatedGuests } : res
