@@ -24,12 +24,12 @@ const ResComponent = ({
 }: ResCompProps) => {
   const [updatedGuests, setUpdatedGuests] = React.useState<number>(numOfGuests);
   return (
-    <div key={id}>
-      <input type="text" value={name} />
+    <div>
+      <input type="text" value={name} disabled />
       <input
         type="number"
         min="1"
-        defaultValue={numOfGuests}
+        value={updatedGuests}
         onChange={(e) => setUpdatedGuests(Number(e.target.value))}
       />
       <button onClick={() => handleSave(id, updatedGuests)}>Save</button>
@@ -67,7 +67,12 @@ export default function App() {
     if (!reservation.name.length) {
       return;
     }
-    if (reservations.find((res) => res.name === reservation.name)) {
+    if (
+      reservations.find(
+        (res) =>
+          res.name.toLocaleLowerCase() === reservation.name.toLocaleLowerCase()
+      )
+    ) {
       window.alert('Name already in use!');
       setReservation(baseReservation);
       return;
@@ -91,19 +96,26 @@ export default function App() {
     );
   };
 
+  const filteredReservations = searchName
+    ? reservations.filter((res) =>
+        res.name.toLowerCase().includes(searchName.toLowerCase())
+      )
+    : reservations;
+
   return (
     <div>
-      <button
+      {/* <button
         onClick={() =>
           console.log('reservations: ', JSON.stringify(reservations))
         }
       >
         Show Reservations in Console
-      </button>
+      </button> */}
       <br></br>
       <div>
         <input
           placeholder="...filter by name"
+          value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
         />
       </div>
@@ -121,29 +133,16 @@ export default function App() {
         onChange={handleNumOfGuestsChange}
       />
       <button onClick={handleBookNow}>Book Now</button>
-      {searchName.length
-        ? reservations
-            .filter((res) =>
-              res.name.toLowerCase().includes(searchName.toLowerCase())
-            )
-            .map((res) => (
-              <ResComponent
-                id={res.id}
-                name={res.name}
-                numOfGuests={res.numOfGuests}
-                handleSave={handleSave}
-                handleDelete={handleDelete}
-              />
-            ))
-        : reservations.map((res) => (
-            <ResComponent
-              id={res.id}
-              name={res.name}
-              numOfGuests={res.numOfGuests}
-              handleSave={handleSave}
-              handleDelete={handleDelete}
-            />
-          ))}
+      {filteredReservations.map((res) => (
+        <ResComponent
+          key={res.id}
+          id={res.id}
+          name={res.name}
+          numOfGuests={res.numOfGuests}
+          handleSave={handleSave}
+          handleDelete={handleDelete}
+        />
+      ))}
     </div>
   );
 }

@@ -34,7 +34,8 @@ button {
   cursor: pointer;
   transition: 0.115s ease-in-out;
   color: white;
-  font-weight: 400;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 button:hover {
